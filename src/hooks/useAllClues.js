@@ -100,12 +100,59 @@ function extractName(answers) {
   return null
 }
 
-function formatDate(dateStr) {
-  if (!dateStr) return ''
-  const date = new Date(dateStr.replace(' ', 'T'))
-  return date.toLocaleDateString('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit',
+const DATE_KEYWORDS = ['timestamp', 'datetime', 'date', 'eventdate', 'sightingdate', 'checkintime']
+
+function toValidDate(str) {
+  if (!str) return null
+  const d = new Date(String(str).replace(' ', 'T'))
+  return isNaN(d.getTime()) ? null : str
+}
+
+function answerToDateString(ans) {
+  if (!ans) return null
+  // JotForm date picker object: { year, month, day, hour?, min?, ampm? }
+  if (typeof ans === 'object' && ans.year && ans.month && ans.day) {
+    let hour = parseInt(ans.hour || '0', 10)
+    const min = (ans.min || '00').padStart(2, '0')
+    if (ans.ampm === 'PM' && hour < 12) hour += 12
+    if (ans.ampm === 'AM' && hour === 12) hour = 0
+    const h = String(hour).padStart(2, '0')
+    const mo = String(ans.month).padStart(2, '0')
+    const dy = String(ans.day).padStart(2, '0')
+    return toValidDate(`${ans.year}-${mo}-${dy} ${h}:${min}:00`)
+  }
+  if (typeof ans === 'string') {
+    const str = ans.trim()
+    // DD-MM-YYYY HH:MM or DD-MM-YYYY
+    const ddmmyyyy = str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})(?:\s+(\d{1,2}):(\d{2}))?/)
+    if (ddmmyyyy) {
+      const [, dd, mm, yyyy, hh = '00', min = '00'] = ddmmyyyy
+      return toValidDate(
+        `${yyyy}-${mm.padStart(2, '0')}-${dd.padStart(2, '0')} ${hh.padStart(2, '0')}:${min}:00`
+      )
+    }
+    return toValidDate(str)
+  }
+  return null
+}
+
+function extractEventDate(answers, fallback) {
+  if (!answers) return fallback
+  const fields = Object.values(answers)
+
+  // Substring match so JotForm suffixes like "timestamp14" are caught
+  const dateField = fields.find((a) => {
+    const name = (a.name || '').toLowerCase()
+    const text = (a.text || '').toLowerCase().trim()
+    return DATE_KEYWORDS.some((k) => name.includes(k) || text.includes(k))
   })
+
+  if (dateField) {
+    const candidate = answerToDateString(dateField.answer)
+    if (candidate) return candidate
+  }
+
+  return fallback
 }
 
 export function useAllClues() {
@@ -133,13 +180,14 @@ export function useAllClues() {
               const name = extractName(sub.answers)
               const answers = parseAnswers(sub.answers)
               if (isJunkSubmission(name, answers)) return null
+              const rawDate = extractEventDate(sub.answers, sub.created_at || '')
               return {
                 id: `${form.type}-${sub.id}`,
                 type: form.type,
                 label: form.label,
                 name,
                 date: '',
-                rawDate: sub.created_at || '',
+                rawDate,
                 answers,
               }
             }).filter(Boolean)

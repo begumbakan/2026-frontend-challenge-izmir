@@ -33,6 +33,9 @@ export default function Header() {
         <Link to="/evidence" className={`nav-link${pathname === '/evidence' ? ' active' : ''}`}>
           Evidence
         </Link>
+        <Link to="/timeline" className={`nav-link${pathname === '/timeline' ? ' active' : ''}`}>
+          Timeline
+        </Link>
       </nav>
     </header>
   )

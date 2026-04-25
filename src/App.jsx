@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import HomePage from './pages/HomePage'
 import EvidencePage from './pages/EvidencePage'
+import TimelinePage from './pages/TimelinePage'
 import './App.css'
 
 function Layout({ children }) {
@@ -28,6 +29,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout><HomePage /></Layout>} />
         <Route path="/evidence" element={<Layout><EvidencePage /></Layout>} />
+        <Route path="/timeline" element={<Layout><TimelinePage /></Layout>} />
       </Routes>
     </BrowserRouter>
   )
