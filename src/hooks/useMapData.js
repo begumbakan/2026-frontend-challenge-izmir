@@ -22,7 +22,9 @@ function parseCoords(answer) {
 }
 
 function getField(answers, name) {
-  const field = Object.values(answers).find((a) => a.name === name)
+  const field = Object.values(answers).find(
+    (a) => a.name === name || a.name === name.toLowerCase()
+  )
   if (!field?.answer) return ''
   if (typeof field.answer === 'object') return Object.values(field.answer).filter(Boolean).join(', ')
   return String(field.answer).trim()
@@ -67,8 +69,9 @@ export function useMapData() {
                   name:
                     getField(a, 'personName') ||
                     getField(a, 'fullName') ||
-                    getField(a, 'suspectName') ||
                     null,
+                  subject: getField(a, 'suspectName'),
+                  seenWith: getField(a, 'seenWith'),
                   note: getField(a, 'note') || getField(a, 'tip') || '',
                   date: sub.created_at ? sub.created_at.slice(0, 10) : '',
                 }

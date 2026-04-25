@@ -16,6 +16,12 @@ const TYPE_COLORS = {
   tips: '#8b1c1c',
 }
 
+const TYPE_CONFIG = {
+  sightings: { heading: 'Podo Sighting', reporterLabel: 'Reported by' },
+  checkins:  { heading: 'Agent Check-In', reporterLabel: 'Agent' },
+  tips:      { heading: 'Anonymous Tip', reporterLabel: null },
+}
+
 function createIcon(type) {
   const color = TYPE_COLORS[type] || '#555'
   const svg = `
@@ -89,11 +95,44 @@ export default function SightingsMap() {
                 >
                   <Popup>
                     <div className="map-popup">
-                      <strong>{point.label}</strong>
-                      {point.name && <div>By: {point.name}</div>}
-                      {point.location && <div>Location: {point.location}</div>}
-                      {point.note && <div>Note: {point.note}</div>}
-                      {point.date && <div style={{ opacity: 0.6, fontSize: '0.75rem' }}>{point.date}</div>}
+                      <div className="map-popup-type">
+                        {TYPE_CONFIG[point.type]?.heading ?? point.label}
+                      </div>
+                      {point.name && TYPE_CONFIG[point.type]?.reporterLabel && (
+                        <div className="map-popup-row">
+                          <span className="map-popup-label">
+                            {TYPE_CONFIG[point.type].reporterLabel}
+                          </span>
+                          <span>{point.name}</span>
+                        </div>
+                      )}
+                      {point.subject && (
+                        <div className="map-popup-row">
+                          <span className="map-popup-label">About</span>
+                          <span>{point.subject}</span>
+                        </div>
+                      )}
+                      {point.location && (
+                        <div className="map-popup-row">
+                          <span className="map-popup-label">Location</span>
+                          <span>{point.location}</span>
+                        </div>
+                      )}
+                      {point.seenWith && (
+                        <div className="map-popup-row">
+                          <span className="map-popup-label">Seen with</span>
+                          <span>{point.seenWith}</span>
+                        </div>
+                      )}
+                      {point.note && (
+                        <div className="map-popup-row">
+                          <span className="map-popup-label">
+                            {point.type === 'checkins' ? 'Status' : 'Note'}
+                          </span>
+                          <span>{point.note}</span>
+                        </div>
+                      )}
+                      {point.date && <div className="map-popup-date">{point.date}</div>}
                     </div>
                   </Popup>
                 </Marker>
