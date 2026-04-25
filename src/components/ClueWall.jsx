@@ -1,10 +1,22 @@
 import { useState, useMemo } from 'react'
+import Fuse from 'fuse.js'
 import { useAllClues } from '../hooks/useAllClues'
 import ClueCard from './ClueCard'
 import { FORMS } from '../constants'
 
 const ALL_TYPES = Object.values(FORMS).map((f) => ({ key: f.type, label: f.label }))
 
+const FUSE_OPTIONS = {
+  keys: [
+    { name: 'name', weight: 2 },
+    { name: 'answers.value', weight: 1.5 },
+    { name: 'answers.label', weight: 0.5 },
+    { name: 'label', weight: 0.3 },
+  ],
+  threshold: 0.4,
+  ignoreLocation: true,
+  minMatchCharLength: 2,
+}
 
 export default function ClueWall() {
   const { clues, loading, error } = useAllClues()
@@ -32,23 +44,20 @@ export default function ClueWall() {
     return [...new Set(names)].sort()
   }, [clues])
 
+  const fuse = useMemo(() => new Fuse(clues, FUSE_OPTIONS), [clues])
+
   const filtered = useMemo(() => {
-    return clues.filter((clue) => {
+    const q = search.trim()
+    const searchPool = q
+      ? fuse.search(q).map((r) => r.item)
+      : clues
+
+    return searchPool.filter((clue) => {
       if (activeTypes.size > 0 && !activeTypes.has(clue.type)) return false
       if (activePerson && clue.name !== activePerson) return false
-      if (search.trim()) {
-        const q = search.toLowerCase()
-        return (
-          (clue.name || '').toLowerCase().includes(q) ||
-          clue.label.toLowerCase().includes(q) ||
-          clue.answers.some(
-            (a) => a.value.toLowerCase().includes(q) || a.label.toLowerCase().includes(q)
-          )
-        )
-      }
       return true
     })
-  }, [clues, activeTypes, activePerson, search])
+  }, [clues, fuse, activeTypes, activePerson, search])
 
   const hasFilters = activeTypes.size > 0 || activePerson || search.trim()
 
