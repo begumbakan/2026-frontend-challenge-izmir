@@ -130,6 +130,7 @@ button { cursor: pointer; font-family: var(--font-detective); }
   font-family: var(--font-detective);
 }
 .nav-link:hover { color: var(--gold); border-color: var(--border-gold); background: rgba(196,154,32,.06); }
+.nav-link.active { color: var(--gold); border-color: var(--border-gold); background: rgba(196,154,32,.06); }
 
 /* ── Hero ──────────────────────────────── */
 
@@ -376,6 +377,205 @@ button { cursor: pointer; font-family: var(--font-detective); }
 .leaflet-map { width: 100%; height: 480px; border: 1px solid var(--border-gold); filter: grayscale(.3) brightness(.9); }
 .map-popup { font-family: var(--font-mono); font-size: .8rem; line-height: 1.6; min-width: 160px; }
 .map-popup strong { font-family: var(--font-detective); display: block; margin-bottom: .25rem; }
+
+/* ── Evidence Wall (Clue Wall) ─────────── */
+
+.clue-wall {
+  padding: 4rem 2rem;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.clue-wall-inner { max-width: 1100px; margin: 0 auto; }
+
+.clue-wall-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+@media(min-width: 768px) {
+  .clue-wall-controls { flex-direction: row; align-items: flex-start; justify-content: space-between; }
+}
+
+.clue-wall-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  flex: 1;
+}
+
+.clue-wall-right-controls {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.filter-btn {
+  padding: .3rem .85rem;
+  font-family: var(--font-detective);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 1px;
+  transition: all .15s;
+}
+.filter-btn:hover { border-color: var(--border-gold); color: var(--text); }
+.filter-btn.active.type-sightings { border-color: var(--gold); color: var(--gold); background: rgba(196,154,32,.08); }
+.filter-btn.active.type-tips { border-color: #c42a2a; color: #e06060; background: rgba(139,28,28,.1); }
+.filter-btn.active.type-messages { border-color: #2a6ab8; color: #6090d8; background: rgba(42,106,184,.1); }
+.filter-btn.active.type-checkins { border-color: #2a7a3a; color: #60b870; background: rgba(42,122,58,.1); }
+.filter-btn.active.type-notes { border-color: #6a3a9a; color: #9860d8; background: rgba(106,58,154,.1); }
+
+.person-select {
+  padding: .33rem 1.75rem .33rem .75rem;
+  font-family: var(--font-detective);
+  font-size: .7rem;
+  letter-spacing: .08em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  border-radius: 1px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237a6a4a'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  transition: border-color .15s;
+}
+.person-select:focus { border-color: var(--border-gold); }
+.person-select option { background: var(--surface); }
+
+.filter-clear {
+  padding: .3rem .85rem;
+  font-family: var(--font-detective);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px dashed var(--border-gold);
+  color: var(--text-dim);
+  border-radius: 1px;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.filter-clear:hover { border-color: var(--gold); color: var(--gold); }
+
+.clue-search {
+  padding: .35rem .85rem;
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  outline: none;
+  min-width: 180px;
+  transition: border-color .15s;
+  border-radius: 1px;
+}
+.clue-search::placeholder { color: var(--text-dim); }
+.clue-search:focus { border-color: var(--border-gold); }
+
+/* ── Corkboard ─────────────────────────── */
+
+.clue-wall-board {
+  position: relative;
+  background-color: #8a6520;
+  background-image:
+    radial-gradient(circle at 18% 22%, rgba(190,140,50,.32) 0%, transparent 38%),
+    radial-gradient(circle at 82% 78%, rgba(90,52,8,.42) 0%, transparent 38%),
+    radial-gradient(circle at 62% 28%, rgba(160,110,28,.22) 0%, transparent 28%),
+    radial-gradient(circle at 28% 72%, rgba(125,80,12,.3) 0%, transparent 28%),
+    radial-gradient(circle at 50% 50%, rgba(140,95,18,.15) 0%, transparent 55%),
+    repeating-linear-gradient(37deg, rgba(0,0,0,.04) 0px, rgba(0,0,0,.04) 1px, transparent 1px, transparent 14px),
+    repeating-linear-gradient(-37deg, rgba(0,0,0,.03) 0px, rgba(0,0,0,.03) 1px, transparent 1px, transparent 14px);
+  border: 10px solid #3a1e06;
+  box-shadow: inset 0 0 50px rgba(0,0,0,.4), 0 8px 40px rgba(0,0,0,.7), 0 0 0 2px #1e0e02;
+  padding: 2.5rem 2rem 2.5rem;
+  overflow: hidden;
+}
+
+.clue-wall-count {
+  font-family: var(--font-detective);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(240,215,160,.55);
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.corkboard-grid {
+  position: relative;
+  z-index: 2;
+}
+
+.corkboard-state {
+  background: rgba(0,0,0,.2) !important;
+  border-color: rgba(240,215,160,.2) !important;
+  color: rgba(240,215,160,.6) !important;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Paper cards on corkboard ──────────── */
+
+.clue-wall .clue-card {
+  background: #f4ecd8;
+  background-image: repeating-linear-gradient(
+    transparent, transparent 23px,
+    rgba(100,70,20,.07) 23px, rgba(100,70,20,.07) 24px
+  );
+  color: #1a1008;
+  border: 1px solid #ccb888;
+  box-shadow: 2px 3px 10px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.12);
+  transition: transform .2s, box-shadow .2s;
+}
+.clue-wall .clue-card:hover {
+  background: #faf4e4;
+  border-color: #c0a060;
+  transform: translateY(-5px) rotate(0deg) !important;
+  box-shadow: 5px 12px 30px rgba(0,0,0,.55);
+}
+
+.clue-wall .clue-card:nth-child(5n)   { transform: rotate(-1.8deg); }
+.clue-wall .clue-card:nth-child(5n+1) { transform: rotate(0.9deg); }
+.clue-wall .clue-card:nth-child(5n+2) { transform: rotate(-0.5deg); }
+.clue-wall .clue-card:nth-child(5n+3) { transform: rotate(1.4deg); }
+.clue-wall .clue-card:nth-child(5n+4) { transform: rotate(-1.1deg); }
+
+.clue-wall .clue-card .clue-pin {
+  top: -12px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: 20px; height: 20px;
+  background: radial-gradient(circle at 38% 35%, #ff6666, #8b1c1c);
+  border: 2px solid #5a0808;
+  box-shadow: 0 3px 8px rgba(0,0,0,.6), inset 0 1px 3px rgba(255,200,200,.25);
+  z-index: 1;
+}
+
+.clue-wall .clue-card::before { height: 4px; opacity: 0.7; }
+
+.clue-wall .clue-card .clue-stamp { font-size: .62rem; }
+.clue-wall .clue-card .clue-date { color: #6a4820; }
+.clue-wall .clue-card .clue-label { color: #7a5028; }
+.clue-wall .clue-card .clue-value { color: #1a1008; }
+.clue-wall .clue-card .clue-empty { color: #9a7040; font-style: italic; }
+
+.clue-wall .clue-card.type-sightings .clue-stamp { color: #7a5008; border-color: #b8880e; background: rgba(196,154,32,.18); }
+.clue-wall .clue-card.type-tips .clue-stamp { color: #7a0c0c; border-color: #b02020; background: rgba(139,28,28,.14); }
+.clue-wall .clue-card.type-messages .clue-stamp { color: #12307a; border-color: #2050a8; background: rgba(42,106,184,.14); }
+.clue-wall .clue-card.type-checkins .clue-stamp { color: #10481a; border-color: #1e682a; background: rgba(42,122,58,.14); }
+.clue-wall .clue-card.type-notes .clue-stamp { color: #381068; border-color: #5a2888; background: rgba(106,58,154,.14); }
 
 /* ── Footer ────────────────────────────── */
 

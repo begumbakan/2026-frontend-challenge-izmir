@@ -1,18 +1,14 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
-import Hero from './components/Hero'
-import CaseBoard from './components/CaseBoard'
-import SightingsMap from './components/SightingsMap'
+import HomePage from './pages/HomePage'
+import EvidencePage from './pages/EvidencePage'
 import './App.css'
 
-function App() {
+function Layout({ children }) {
   return (
     <>
       <Header />
-      <main>
-        <Hero />
-        <CaseBoard />
-        <SightingsMap />
-      </main>
+      <main>{children}</main>
       <footer className="footer">
         <div className="footer-status">
           <span className="dot" />
@@ -26,4 +22,13 @@ function App() {
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout><HomePage /></Layout>} />
+        <Route path="/evidence" element={<Layout><EvidencePage /></Layout>} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
