@@ -2,7 +2,7 @@ export const FORMS = {
   CHECKINS: {
     id: '261134527667966',
     apiKey: import.meta.env.VITE_API_KEY_CHECKINS,
-    label: 'Field Check-In',
+    label: 'Check-Ins',
     icon: '📍',
     description: 'Field agents: log your current location and status.',
     type: 'checkins',
@@ -10,7 +10,7 @@ export const FORMS = {
   MESSAGES: {
     id: '261133651963962',
     apiKey: import.meta.env.VITE_API_KEY_MESSAGES,
-    label: 'Leave a Message',
+    label: 'Messages',
     icon: '✉️',
     description: 'Leave a message for the investigation team.',
     type: 'messages',
@@ -18,7 +18,7 @@ export const FORMS = {
   SIGHTINGS: {
     id: '261133720555956',
     apiKey: import.meta.env.VITE_API_KEY_SIGHTINGS,
-    label: 'Report a Sighting',
+    label: 'Sightings',
     icon: '👁️',
     description: 'Spotted Podo? Report your sighting here.',
     type: 'sightings',
@@ -26,7 +26,7 @@ export const FORMS = {
   PERSONAL_NOTES: {
     id: '261134449238963',
     apiKey: import.meta.env.VITE_API_KEY_PERSONAL_NOTES,
-    label: 'Detective Notes',
+    label: 'Personal Notes',
     icon: '📝',
     description: 'Record your private detective notes.',
     type: 'notes',
@@ -34,7 +34,7 @@ export const FORMS = {
   ANONYMOUS_TIPS: {
     id: '261134430330946',
     apiKey: import.meta.env.VITE_API_KEY_ANONYMOUS_TIPS,
-    label: 'Anonymous Tip',
+    label: 'Anonymous Tips',
     icon: '🔍',
     description: "Submit a confidential tip about Podo's whereabouts.",
     type: 'tips',

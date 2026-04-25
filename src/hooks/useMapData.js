@@ -68,7 +68,7 @@ export function useMapData() {
                     getField(a, 'personName') ||
                     getField(a, 'fullName') ||
                     getField(a, 'suspectName') ||
-                    'Unknown',
+                    null,
                   note: getField(a, 'note') || getField(a, 'tip') || '',
                   date: sub.created_at ? sub.created_at.slice(0, 10) : '',
                 }

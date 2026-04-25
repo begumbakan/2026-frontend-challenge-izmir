@@ -77,7 +77,7 @@ export default function ClueWall() {
                 value={activePerson}
                 onChange={(e) => setActivePerson(e.target.value)}
               >
-                <option value="">All persons</option>
+                <option value="">Display All</option>
                 {persons.map((p) => (
                   <option key={p} value={p}>{p}</option>
                 ))}
