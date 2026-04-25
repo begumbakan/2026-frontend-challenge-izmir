@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import JotformModule from 'jotform'
 const Jotform = JotformModule.default ?? JotformModule
+import { prettifyLabel } from '../utils/labels'
 
 function parseAnswers(answers) {
   if (!answers) return []
@@ -13,7 +14,7 @@ function parseAnswers(answers) {
       return true
     })
     .map((field) => ({
-      label: field.text || field.name || 'Field',
+      label: prettifyLabel(field.text?.trim() || field.name),
       value:
         typeof field.answer === 'object'
           ? Object.values(field.answer).filter(Boolean).join(', ')

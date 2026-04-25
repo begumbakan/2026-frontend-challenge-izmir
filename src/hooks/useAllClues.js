@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import JotformModule from 'jotform'
 const Jotform = JotformModule.default ?? JotformModule
 import { FORMS } from '../constants'
+import { prettifyLabel } from '../utils/labels'
 
 const BLOCKED_NAMES = new Set(['ss'])
 
@@ -31,16 +32,6 @@ function applyCorrections(text) {
     }, text)
 }
 
-function prettifyLabel(raw) {
-  if (!raw) return 'Field'
-  return raw
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/[_-]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase()
-    .replace(/\b\w/g, (c) => c.toUpperCase())
-}
 
 function normalizeText(val) {
   if (typeof val !== 'string') return val
@@ -57,7 +48,7 @@ function parseAnswers(answers) {
       return true
     })
     .map((field) => ({
-      label: field.text?.trim() ? normalizeText(field.text) : prettifyLabel(field.name),
+      label: prettifyLabel(field.text?.trim() || field.name),
       value: applyCorrections(
         typeof field.answer === 'object'
           ? normalizeText(Object.values(field.answer).filter(Boolean).join(', '))
