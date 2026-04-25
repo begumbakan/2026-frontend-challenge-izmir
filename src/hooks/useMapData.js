@@ -5,6 +5,26 @@ import { FORMS } from '../constants'
 
 const MAP_FORMS = [FORMS.SIGHTINGS, FORMS.CHECKINS, FORMS.ANONYMOUS_TIPS]
 
+const TEXT_CORRECTIONS = {
+  'Ayca': 'Ayça',
+  'AYCA': 'Ayça',
+  'ayca': 'Ayça',
+  'ALICAN': 'Alican',
+  'Alicann': 'Alican',
+  'alicann': 'Alican',
+  'ALICANN': 'Alican',
+}
+
+function applyCorrections(text) {
+  if (typeof text !== 'string') return text
+  return Object.entries(TEXT_CORRECTIONS)
+    .sort((a, b) => b[0].length - a[0].length)
+    .reduce((t, [wrong, right]) => {
+      const escaped = wrong.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      return t.replace(new RegExp(`\\b${escaped}\\b`, 'g'), right)
+    }, text)
+}
+
 function parseCoords(answer) {
   if (!answer) return null
   if (typeof answer === 'object' && answer.lat && answer.lng) {
@@ -65,13 +85,13 @@ export function useMapData() {
                   type: form.type,
                   label: form.label,
                   coords,
-                  location: getField(a, 'location'),
+                  location: applyCorrections(getField(a, 'location')),
                   name:
-                    getField(a, 'personName') ||
-                    getField(a, 'fullName') ||
+                    applyCorrections(getField(a, 'personName')) ||
+                    applyCorrections(getField(a, 'fullName')) ||
                     null,
-                  subject: getField(a, 'suspectName'),
-                  seenWith: getField(a, 'seenWith'),
+                  subject: applyCorrections(getField(a, 'suspectName')),
+                  seenWith: applyCorrections(getField(a, 'seenWith')),
                   note: getField(a, 'note') || getField(a, 'tip') || '',
                   date: sub.created_at ? sub.created_at.slice(0, 10) : '',
                 }

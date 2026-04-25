@@ -138,7 +138,7 @@ export function useAllClues() {
                 type: form.type,
                 label: form.label,
                 name,
-                date: formatDate(sub.created_at),
+                date: '',
                 rawDate: sub.created_at || '',
                 answers,
               }
@@ -147,7 +147,7 @@ export function useAllClues() {
         )
 
         if (!cancelled) {
-          setClues(results.flat().sort((a, b) => b.rawDate.localeCompare(a.rawDate)))
+          setClues(results.flat().sort((a, b) => a.rawDate.localeCompare(b.rawDate)))
         }
       } catch (err) {
         if (!cancelled) setError(err.message)
