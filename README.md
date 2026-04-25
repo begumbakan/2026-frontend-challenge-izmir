@@ -22,7 +22,8 @@ Please fill in your information after forking this repository:
     `VITE_API_KEY_PERSONAL_NOTES=your_key_here`
     `VITE_API_KEY_ANONYMOUS_TIPS=your_key_here`
 
-
+4. Start the development server:
+    `npm run dev`
 
 
 # 🚀 Challenge Duyurusu

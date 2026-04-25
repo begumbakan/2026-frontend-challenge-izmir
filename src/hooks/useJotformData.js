@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import Jotform from 'jotform'
+import JotformModule from 'jotform'
+const Jotform = JotformModule.default ?? JotformModule
 
 function parseAnswers(answers) {
   if (!answers) return []
