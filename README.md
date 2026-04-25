@@ -3,13 +3,27 @@
 ## User Information
 Please fill in your information after forking this repository:
 
-- **Name**: [Your Name]
+- **Name**: Begüm Bakan
 
 ## Project Description
 [Add a brief description of your project here]
 
 ## Getting Started
-[Add instructions for setting up and running the project]
+1. Clone the repository and install dependencies:
+   `npm install`
+
+2. Copy the environment variable template:
+    `cp .env.example .env`
+
+3. Open `.env` and fill in your JotForm API key:
+    `VITE_API_KEY_CHECKINS=your_key_here`
+    `VITE_API_KEY_MESSAGES=your_key_here`
+    `VITE_API_KEY_SIGHTINGS=your_key_here`
+    `VITE_API_KEY_PERSONAL_NOTES=your_key_here`
+    `VITE_API_KEY_ANONYMOUS_TIPS=your_key_here`
+
+
+
 
 # 🚀 Challenge Duyurusu
 
