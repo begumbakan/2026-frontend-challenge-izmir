@@ -426,7 +426,7 @@ button { cursor: pointer; font-family: var(--font-detective); }
   font-size: .72rem;
   letter-spacing: .2em;
   text-transform: uppercase;
-  color: var(--gold-dim);
+  color: var(--gold);
   margin-bottom: .75rem;
   position: relative;
   padding-left: 1.25rem;
@@ -439,7 +439,7 @@ button { cursor: pointer; font-family: var(--font-detective); }
   transform: translateY(-50%);
   width: 7px; height: 7px;
   border-radius: 50%;
-  background: var(--border-gold);
+  background: var(--gold);
 }
 
 .timeline-entry {
@@ -484,21 +484,21 @@ button { cursor: pointer; font-family: var(--font-detective); }
   border-radius: 1px;
 }
 .type-sightings .timeline-entry-stamp { color: var(--gold); border-color: var(--gold-dim); }
-.type-tips .timeline-entry-stamp { color: #e06060; border-color: #6a1c1c; }
-.type-messages .timeline-entry-stamp { color: #6090d8; border-color: #2a3a6a; }
-.type-checkins .timeline-entry-stamp { color: #60b870; border-color: #1a4a2a; }
-.type-notes .timeline-entry-stamp { color: #9860d8; border-color: #3a1a6a; }
+.type-tips .timeline-entry-stamp { color: #f07878; border-color: #8b2a2a; }
+.type-messages .timeline-entry-stamp { color: #90b8f8; border-color: #3a5a9a; }
+.type-checkins .timeline-entry-stamp { color: #7ed88a; border-color: #2a6a3a; }
+.type-notes .timeline-entry-stamp { color: #c088f8; border-color: #5a2a9a; }
 
-.timeline-entry-time { font-size: .65rem; color: var(--text-dim); letter-spacing: .05em; }
+.timeline-entry-time { font-size: .65rem; color: #a09060; letter-spacing: .05em; }
 .timeline-entry-name { font-size: .82rem; color: var(--text); }
 .timeline-entry-detail { display: flex; flex-direction: column; gap: .1rem; }
 .timeline-entry-detail-label {
   font-size: .58rem;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--text-dim);
+  color: #a09060;
 }
-.timeline-entry-detail-value { font-size: .78rem; color: var(--text-muted); line-height: 1.5; }
+.timeline-entry-detail-value { font-size: .78rem; color: var(--text); line-height: 1.5; }
 
 /* ── Evidence Wall (Clue Wall) ─────────── */
 

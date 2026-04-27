@@ -11,7 +11,6 @@ export default function ClueCard({ submission, type }) {
     <div className={`clue-card type-${type}`}>
       <div className="clue-pin" />
       <div className="clue-stamp">{TYPE_LABELS[type] ?? type}</div>
-      <div className="clue-date">{submission.date}</div>
       <div className="clue-body">
         {submission.answers.map((answer, i) => (
           <div key={i} className="clue-field">
